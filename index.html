@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="theme-color" content="#121010">
+    <title>Miss Eventos - Registro de Pagamentos</title>
+    
+    <!-- CSS principal -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- ExcelJS para exportação ao Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js" defer></script>
+
+    <!-- jsPDF para PDF e html2canvas para printscreen PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+    
+    <!-- JS principal -->
+    <script src="assets/js/script.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <img src="./img/Miss_Logo_Solo.svg" alt="Miss Eventos" class="logo-img">
+                <div class="logo-text">
+                    <div class="logo-main">Miss Eventos</div>
+                    <div class="logo-sub">Registro de Pagamentos</div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="theme-toggle" onclick="viewSavedEvents()">
+                    <i class="fas fa-folder-open"></i>
+                </button>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+            </div>
+        </header>
+
+        <div class="form-container">
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label><i class="fas fa-calendar-alt"></i> Nome do Evento</label>
+                    <input type="text" class="form-control" id="eventName" placeholder="Ex: Creme gigante - Eldorado" required>
+                </div>
+
+                <div class="companies-section">
+                    <div class="companies-header">
+                        <h3><i class="fas fa-building"></i> Empresas Contratantes</h3>
+                        <button type="button" class="btn btn-primary btn-small" onclick="addCompany()">
+                            <i class="fas fa-plus"></i> Adicionar Empresa
+                        </button>
+                    </div>
+                    <div id="companiesList">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-calculator"></i> Valor Total do Evento (R$)</label>
+                    <input type="text" class="form-control" id="totalValue" readonly>
+                </div>
+
+                <div class="actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-eye"></i> Visualizar Registro
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                        <i class="fas fa-trash"></i> Limpar Formulário
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="preview-container" id="previewContainer">
+            <div class="preview-header">
+                <i class="fas fa-file-invoice"></i>
+                <h2>Registro de Pagamentos</h2>
+            </div>
+            <div class="preview-content" id="previewContent">
+            </div>
+            <div class="actions">
+                <button type="button" class="btn btn-secondary" onclick="saveCurrentEvent()">
+                    <i class="fas fa-save"></i> Salvar Registro
+                </button>
+                <button class="btn btn-primary" onclick="generatePDF()">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>Baixar PDF</span>
+                    <div class="spinner"></div>
+                </button>
+                <button class="btn btn-primary" onclick="generateExcel()">
+                    <i class="fas fa-file-excel"></i>
+                    <span>Baixar Excel</span>
+                    <div class="spinner"></div>
+                </button>
+                <button class="btn btn-secondary" onclick="hidePreview()">
+                    <i class="fas fa-times"></i> Fechar Visualização
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="eventsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Registros Salvos</h2>
+                <button class="close-modal" onclick="closeEventsModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="savedEventsList">
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Operação realizada com sucesso!</span>
+    </div>
+</body>
+</html>
